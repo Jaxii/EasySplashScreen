@@ -75,21 +75,29 @@ class _EasySplashScreenState extends State<EasySplashScreen> {
     if (widget.futureNavigator == null) {
       Timer(Duration(seconds: widget.durationInSeconds), () {
         if (widget.navigator is String) {
-          Navigator.of(context).pushReplacementNamed(
-            widget.navigator as String,
-          );
+          if (mounted) {
+            Navigator.of(context).pushReplacementNamed(
+              widget.navigator as String,
+            );
+          }
         } else if (widget.navigator is Widget) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => widget.navigator as Widget));
+          if (mounted) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => widget.navigator as Widget));
+          }
         }
       });
     } else {
       widget.futureNavigator!.then((_route) {
         if (_route is String) {
-          Navigator.of(context).pushReplacementNamed(_route);
+          if (mounted) {
+            Navigator.of(context).pushReplacementNamed(_route);
+          }
         } else if (_route is Widget) {
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) => _route));
+          if (mounted) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => _route));
+          }
         }
       });
     }
